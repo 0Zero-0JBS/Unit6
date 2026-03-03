@@ -61,8 +61,26 @@ public class PlayerScript : MonoBehaviour
             anim.SetTrigger("Jump");
         }
 
-        // 6. Update Animator
-        anim.SetBool("isRunning", isMoving);
+        anim.SetBool("isRunning", isMoving && !isSprinting);
         anim.SetBool("isSprinting", isSprinting);
+
+        if (!isMoving) 
+        {
+            // We are standing still
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isSprinting", false);
+        } 
+        else if (isSprinting) 
+        {
+            // We are moving AND sprinting
+            anim.SetBool("isRunning", false); // Turn off walk so sprint takes over
+            anim.SetBool("isSprinting", true);
+        } 
+        else 
+        {
+            // We are moving but NOT sprinting (Walking)
+            anim.SetBool("isRunning", true);
+            anim.SetBool("isSprinting", false);
+        }
     }
 }
